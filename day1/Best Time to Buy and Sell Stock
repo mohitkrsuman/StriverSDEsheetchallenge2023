@@ -1,0 +1,43 @@
+#include <bits/stdc++.h> 
+
+// Approach -2
+
+int maximumProfit(vector<int> &prices){
+    int n = prices.size();
+
+    int buy = prices[0];
+    int maxProfit = 0;
+    for(int i = 1; i < n; i++){
+        int sell = prices[i];
+        int profit =sell - buy;
+
+        if(profit < 0){
+            buy = sell;
+        }
+
+        maxProfit = max(maxProfit, profit);
+    }
+
+    return maxProfit;
+}
+
+
+// Approach - 1
+
+/*
+int maximumProfit(vector<int> &prices){
+    // Write your code here.
+    int n = prices.size();
+    
+    int minSoFar = prices[0];
+    int maxProfit = 0;
+
+    for(int i = 1; i < n; i++){
+         minSoFar = min(minSoFar, prices[i]);
+         int profit = prices[i] - minSoFar;
+         maxProfit = max(maxProfit, profit);
+    }
+
+    return maxProfit;
+}
+*/
