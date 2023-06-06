@@ -1,0 +1,19 @@
+bool searchMatrix(vector<vector<int>>& mat, int target) {
+    int n = mat.size(), m = mat[0].size();
+
+    int low = 0, high = n*m - 1;
+
+    while(low <= high){
+        int mid = low + (high - low)/2;
+        int mid_elem = mat[mid/m][mid%m];
+
+        if(mid_elem == target) return true;
+        else if(mid_elem < target){
+            low = mid+1;
+        }else{
+            high = mid-1;
+        }
+    }
+
+    return false;
+}
