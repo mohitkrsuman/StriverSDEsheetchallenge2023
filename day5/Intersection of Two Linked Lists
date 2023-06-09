@@ -1,0 +1,45 @@
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+            int data;
+            Node *next;
+            Node()
+            {
+                this->data = 0;
+                next = NULL;
+            }
+            Node(int data)
+            {
+                this->data = data;
+                this->next = NULL;
+            }
+            Node(int data, Node* next)
+            {
+                this->data = data;
+                this->next = next;
+            }
+        };
+
+*****************************************************************/
+
+// Traversing after till the condition is not true;
+Node* findIntersection(Node *f, Node *s)
+{
+    if(!f || !s) return NULL;
+    Node *a = f, *b = s;
+
+    while(true){
+        if(a == b) return a;
+
+        a = a->next;
+        b = b->next;
+        
+        if(!a) a = s;
+        if(!b) b = f;
+    }
+    return NULL; 
+}  
