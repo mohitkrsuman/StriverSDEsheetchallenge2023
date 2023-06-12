@@ -1,0 +1,39 @@
+#include <bits/stdc++.h> 
+static bool cmp(vector<int> &a, vector<int> &b){
+    // sorted in decreasing order
+    return a[1] > b[1];
+}
+
+int jobScheduling(vector<vector<int>> &jobs)
+{
+    // Write your code here
+     sort(jobs.begin(), jobs.end(), cmp);
+       
+     int maxDeadline = -1, profit = 0;
+     for(int i = 0; i < jobs.size(); i++){
+         maxDeadline = max(maxDeadline, jobs[i][0]);
+     }
+     
+     // these are slots 0-1, 1-2, 2-3 till maximum deadline
+     vector<int> dp(maxDeadline+1, -1);
+
+     for(int i = 0; i < jobs.size(); i++){
+         int d = jobs[i][0];
+
+         // we are checking if any slot is empty we will fill the jobs in it
+         for(int j = d; j > 0; j--){
+             if(dp[j] == -1){
+                 dp[j] = jobs[i][1];
+                 break;
+             }
+         }
+     }
+     for(int i = 1; i <= maxDeadline; i++){
+         if(dp[i] != -1){
+             profit += dp[i];
+         }
+     }
+
+     return profit;
+     
+}
