@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+vector<vector<int>> ans;
+
+void solve(int idx, int n, vector<int> &v, vector<int> temp){
+    if(idx == n){
+       ans.push_back(temp);
+       return;
+    }
+
+    temp.push_back(v[idx]);
+    solve(idx+1, n, v, temp);
+
+    temp.pop_back();
+    solve(idx+1, n, v, temp);
+}
+
+vector<vector<int>> pwset(vector<int>v)
+{
+   int n = v.size();
+   vector<int> temp;
+   solve(0, n, v, temp);
+
+   return ans;   
+}
