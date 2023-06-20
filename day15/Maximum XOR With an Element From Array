@@ -1,0 +1,105 @@
+#include<bits/stdc++.h>
+struct Node{
+    Node *links[2];
+    
+    bool contains(int a)
+    {
+        return links[a]!=NULL;
+    }
+    
+    Node *get(int a)
+    {
+        return links[a];
+    }
+    
+    void put(int a,Node *node)
+    {
+        links[a]=node;
+    }
+};
+class Trie{
+    Node *root;
+    public:
+    Trie()
+    {
+        root=new Node();
+    }
+    
+    void insert(int a)
+    {
+        Node *node=root;
+        
+        for(int i=31;i>=0;i--)
+        {
+            int bit_val=(a>>i)&1;
+            if(!node->contains(bit_val))
+            {
+                node->put(bit_val,new Node());
+            }
+            node=node->get(bit_val);
+        }
+        
+    }
+    
+    int max_xor(int a)
+    {
+        Node *node=root;
+        int ma_xor=0;
+        for(int i=31;i>=0;i--)
+        {
+            int bit_val=(a>>i)&1;
+            int inv_bit=!bit_val;
+            
+            if(node->contains(inv_bit))
+            {
+                ma_xor=ma_xor|(1<<i);
+                node=node->get(inv_bit);
+            }
+            else
+            {
+                node=node->get(bit_val);
+            }
+        }
+        
+        return ma_xor;
+    }
+};
+
+    vector<int> maxXorQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        //Mi Xi index
+        vector<pair<int,pair<int,int>>>queries_index;
+        sort(nums.begin(),nums.end());
+        
+        int n=queries.size();
+        
+        for(int i=0;i<queries.size();i++)
+        {
+            int Xi=queries[i][0];
+            int Mi=queries[i][1];
+            
+            queries_index.push_back({Mi,{Xi,i}});
+        }
+        
+        sort(queries_index.begin(),queries_index.end());
+        
+        int max_ans=INT_MIN;
+        vector<int>ans(n,0);
+        int m=nums.size();
+        int i=0;
+        Trie t1;
+        for(int index=0;index<queries.size();index++)
+        {
+            int key_point=queries_index[index].first;
+            int AI=queries_index[index].second.first;
+            int idx=queries_index[index].second.second;
+            while(i<m && nums[i]<=key_point)
+            {
+                t1.insert(nums[i]);
+                i++;
+            }
+            if(i==0)ans[idx]=-1;
+            else
+            ans[idx]=t1.max_xor(AI);
+        }
+        return ans;
+    }
