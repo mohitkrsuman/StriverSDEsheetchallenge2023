@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+    int X[4] = {1, 0, -1, 0};
+    int Y[4] = {0, 1, 0, -1};
+int minTimeToRot(vector<vector<int>>& grid, int n, int m)
+{
+
+        int cntFresh = 0;
+        queue<pair<pair<int, int>, int>> q;
+        int vis[n][m];
+        
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j] == 2){
+                    vis[i][j] = 2;
+                    q.push({{i, j}, 0});
+                }else{
+                    vis[i][j] = 0;
+                }
+                
+                if(grid[i][j] == 1){
+                    cntFresh++;
+                }
+            }
+        }
+        
+        int tm = 0;
+        int cnt = 0;
+        while(!q.empty()){
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int t = q.front().second;
+            q.pop();
+            tm = max(t, tm);
+            
+            for(int i = 0; i < 4; i++){
+                int nwx = r + X[i];
+                int nwy = c + Y[i];
+                
+                if(nwx >= 0 && nwx < n && nwy >= 0 && nwy < m && grid[nwx][nwy] == 1 && vis[nwx][nwy] == 0){
+                    q.push({{nwx, nwy}, t+1});
+                    vis[nwx][nwy] = 2;
+                    cnt++;
+                }
+            }
+        }
+        
+        if(cntFresh == cnt) return tm;
+        
+        return -1;
+        
+}
