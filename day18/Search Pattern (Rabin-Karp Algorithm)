@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define d 256
+
+vector<int> stringMatch(string text, string pat) {
+	 vector<int> ans;
+     int n = text.length(), m = pat.length();
+
+	 for(int i = 0; i <= n-m; i++){
+		 bool match = true;
+
+		 for(int j = 0; j < m; j++){
+			 if(text[i+j] != pat[j]){
+				 match = false;
+				 break;
+			 }
+		 }
+
+		 if(match){
+             ans.push_back(i+1);
+		 }
+	 }
+
+	 return ans;
+}
