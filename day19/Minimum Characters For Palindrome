@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+
+
+int minCharsforPalindrome(string str) {
+	// Write your code here.
+	int n = str.length();
+	int low = 0, high = n-1, e2 = high;
+
+	int cnt = 0;
+	while(low < high){
+		if(str[low] == str[high]){
+			low++;
+			high--;
+		}else{
+			cnt++;
+			low = 0;
+			e2--;
+			high = e2;
+		}
+	}
+
+	return cnt;
+
+}
