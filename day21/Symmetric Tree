@@ -1,0 +1,45 @@
+/*****************************************************
+
+    Following is the Binary Tree node structure:
+    
+    class BinaryTreeNode {
+        public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+        
+        ~BinaryTreeNode() {
+            if(left) 
+                delete left;
+            if(right) 
+                delete right;
+        }
+    };
+
+******************************************************/
+
+    bool isSymmetricTest(BinaryTreeNode<int>* p , BinaryTreeNode<int>* q){
+        if(p == NULL && q == NULL) //left & right node is NULL 
+            return true; 
+        
+        else if(p == NULL || q == NULL) //one of them is Not NULL
+            return false; 
+        
+        else if(p->data!=q->data) 
+            return false;
+        
+        return isSymmetricTest(p->left,q->right) && isSymmetricTest(p->right,q->left); //comparing left subtree's left child with right subtree's right child --AND-- comparing left subtree's right child with right subtree's left child
+    }
+bool isSymmetric(BinaryTreeNode<int>* root)
+{
+    // Write your code here. 
+    if(!root) return true;
+
+    return isSymmetricTest(root->left, root->right);
+}
