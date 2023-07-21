@@ -1,0 +1,17 @@
+
+bool searchInBST(BinaryTreeNode<int> *root, int x) {
+    // Write your code here.
+    if(!root) return false;
+
+    if(root->data == x){
+        return true;
+    }
+    bool flag1 = false, flag2 = false;
+    if(x > root->data){
+        flag1 = searchInBST(root->right, x);
+    }else{
+        flag2 = searchInBST(root->left, x);
+    }
+
+    return flag1 | flag2;
+}
