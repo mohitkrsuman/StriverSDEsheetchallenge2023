@@ -1,0 +1,60 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+string serializeTree(TreeNode<int> *root)
+{
+ //    Write your code here for serializing the tree
+    if(!root) return "null,";
+
+    return to_string(root->data) + "," + serializeTree(root->left) + serializeTree(root->right);
+
+}
+
+TreeNode<int> *makeTree(queue<string> &q){
+    string s = q.front();
+    q.pop();
+    if(s == "null"){
+        return NULL;
+    }
+
+    TreeNode<int> *root = new TreeNode<int>(stoi(s));
+    root->left = makeTree(q);
+    root->right = makeTree(q);
+
+    return root;
+}
+
+TreeNode<int>* deserializeTree(string &ser)
+{
+     string s = "";
+     queue<string> q;
+     for(char c : ser){
+        if(c == ','){
+            q.push(s);
+            s = "";
+            continue;
+        }
+        s += c;
+     }
+     return makeTree(q);
+}
+
+
+
