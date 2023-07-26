@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+
+void dfs(int node, vector<int> adj[], vector<int> &vis, stack<int> &st){
+    vis[node] = 1;
+
+    for(auto elem : adj[node]){
+        if(!vis[elem]){
+            dfs(elem, adj, vis, st);
+        }
+    }
+    st.push(node);
+}
+
+void dfs(int node, vector<int> adjT[], vector<int> &vis, vector<int> &temp){
+    vis[node] = 1;
+    temp.push_back(node);
+
+    for(auto elem : adjT[node]){
+        if(!vis[elem]){
+            dfs(elem, adjT, vis, temp);
+        }
+    }
+}
+
+vector<vector<int>> stronglyConnectedComponents(int v, vector<vector<int>> &edges)
+{
+    // Write your code here.
+    vector<vector<int>> ans;
+    vector<int> adj[v];
+    for(auto edge : edges){
+        adj[edge[0]].push_back(edge[1]);
+    }
+    // storing each node according to finish time
+
+    stack<int> st;
+    vector<int> vis(v, 0);
+    for(int i = 0; i < v; i++){
+        if(!vis[i]){
+            dfs(i, adj, vis, st);
+        }
+    }
+
+    // reverse each path of the graph
+    vector<int> adjT[v];
+    for(int i = 0; i < v; i++){
+        vis[i] = 0;
+        for(auto it : adj[i]){
+            adjT[it].push_back(i);
+        }
+    }
+
+    while(!st.empty()){
+        int node = st.top();
+        st.pop();
+        vector<int> temp;
+        if(!vis[node]){
+            dfs(node, adjT, vis, temp);
+        }
+        ans.push_back(temp);
+    }
+
+    return ans;
+    
+}
