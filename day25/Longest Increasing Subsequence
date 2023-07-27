@@ -1,0 +1,120 @@
+#include<bits/stdc++.h>
+
+// int solve(int idx, int prev_idx, int nums[], int n, vector<vector<int>> &dp){
+//     if(idx == n) return 0;
+
+//     if(dp[idx][prev_idx+1] != -1){
+//         return dp[idx][prev_idx+1];
+//     }
+
+//     int len = 0 + solve(idx + 1, prev_idx, nums, n, dp);
+    
+//     if(prev_idx == -1 || nums[idx] > nums[prev_idx]){
+//         len = max(len, 1 + solve(idx+1, idx, nums, n, dp));
+//     }
+
+//     return dp[idx][prev_idx+1];
+// }
+
+#include<bits/stdc++.h>
+
+int bs(vector<int> &nums, int x){
+
+    int low=0, high=nums.size()-1;
+
+    int index=nums.size();
+
+    while (low<=high){
+
+        int mid=low+(high-low)/2;
+
+        if (nums[mid]>=x){
+
+            high=mid-1;
+
+            index=mid;
+
+        }
+
+        else{
+
+            low=mid+1;
+
+        }
+
+    }
+
+    return index;
+
+}
+
+ 
+
+int longestIncreasingSubsequence(int nums[], int n)
+
+{
+
+    // Write Your Code hereint n=nums.size();
+
+    vector<int> vec;
+
+    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+
+    int prev=nums[0];
+
+    vec.push_back(prev);
+
+    for (int i=1; i<n; i++){
+
+        if (nums[i]>prev){
+
+            vec.push_back(nums[i]);
+
+            prev=nums[i];
+
+        }else{
+
+            int index=bs(vec, nums[i]);
+
+            if (index==vec.size()){
+
+                vec.push_back(nums[i]);
+
+            }else{
+
+                vec[index]=nums[i];
+
+            }
+
+        }
+
+    }
+
+    return vec.size();
+
+}
+
+ 
+
+
+// int longestIncreasingSubsequence(int arr[], int n)
+// {
+//     // Write Your Code here
+//     vector<int> temp;
+//     temp.push_back(arr[0]);
+
+//     for(int i = 1; i < n; i++){
+//         if(arr[i] > temp.back()){
+//             temp.push_back(arr[i]);
+//         }else{
+//             int idx = lower_bound(temp.begin(), temp.end(), arr[i]) - temp.begin();
+//             if(idx == temp.size()){
+//                 temp.push_back(arr[i]);
+//             }else{
+//                 temp[idx] = arr[idx];
+//             }
+//         }
+//     }
+
+//     return temp.size();
+// }
