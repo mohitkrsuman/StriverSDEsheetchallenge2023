@@ -1,0 +1,30 @@
+int solve(int idx, vector<int> &wt, vector<int> &value, int capacity, vector<vector<int>> &dp){
+	if(idx == 0){
+		if(wt[idx] <= capacity){
+			return value[0];
+		}
+		return 0;
+	}
+
+	if(dp[idx][capacity] != -1){
+		return dp[idx][capacity];
+	}
+
+	int include = 0;
+	if(wt[idx] <= capacity){
+		include = value[idx] + solve(idx-1, wt, value, capacity - wt[idx], dp);
+	}
+	int exclude = solve(idx-1, wt, value, capacity, dp) + 0;
+
+	dp[idx][capacity] = max(include, exclude);
+	return dp[idx][capacity];
+}
+
+
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{
+	// Write your code here
+	vector<vector<int>> dp(n, vector<int>(w+1, -1));
+
+	return solve(n-1, weights, values, w, dp);
+}
