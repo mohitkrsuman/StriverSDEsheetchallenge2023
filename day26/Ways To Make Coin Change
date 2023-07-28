@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+int MOD = 1e9+7;
+
+long solveMemo(int *coins, int idx, int target, vector<vector<int>> &dp){
+    if(idx == 0){
+        if(target % coins[0] == 0) return target/coins[0];
+        return 1e8;
+    }
+
+    if(dp[idx][target] != -1) return dp[idx][target];
+    int take = 1e8;
+    int notTake = 0 + solveMemo(coins, idx-1, target, dp);
+
+    if(coins[idx] <= target){
+        take = 1 + solveMemo(coins, idx, target-coins[idx], dp);
+    }
+
+    return dp[idx][target] = min(take, notTake);
+}
+
+
+
+long countWaysToMakeChange(int *num, int n, int target)
+
+{
+
+    vector<vector<long>> dp(n,vector<long>(target+1,0));
+
+    for(int t=0;t<=target;t++){
+
+       dp[0][t]=(t%num[0]==0);
+
+     }
+
+    for(int i=1;i<n;i++){
+
+       for(int t=0;t<=target;t++){
+
+           long not_take=dp[i-1][t];
+
+           long take=0;
+
+           if(num[i]<=t){
+
+               take=dp[i][t-num[i]];
+
+           }
+
+           dp[i][t]=take+not_take;
+
+       }
+
+   }
+
+    return dp[n-1][target];
+
+}
